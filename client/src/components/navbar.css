@@ -1,0 +1,14 @@
+
+
+@keyframes rotate-right-90 {
+  from {
+    transform: rotateZ(90deg);
+  }
+}
+
+@keyframes rotate-left-90 {
+  from {
+    transform: rotateZ(-90deg);
+  } 
+ 
+}
