@@ -1,8 +1,10 @@
+
 import express from "express";
 const router = express.Router();
 import { User } from "../models/User.js";
 import { Chat } from "../models/Chat.js";
 import { Message } from "../models/Message.js";
+
 
 router.get(`/`, async (req, res) => {
   
@@ -20,7 +22,5 @@ router.get(`/`, async (req, res) => {
   */
 
 });
-
-
 
 export { router as chatRouter };
