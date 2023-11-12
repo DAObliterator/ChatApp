@@ -15,6 +15,7 @@ export const ChatPage = () => {
   const [otherUserMessages, setOtherUserMessages] = useState(null);
   const [messages, setMessages] = useState(null);
   const [allMessages, setAllMessages] = useState([]);
+  const [oldMessages , setOldMessages] = useState([]);
   const [receivedMessages, setReceivedMessages] = useState([]);
   const [sentMessageArray, setSentMessageArray] = useState([]);
   const [allOtherUsers, setAllOtherUsers] = useState([]);
@@ -40,7 +41,24 @@ export const ChatPage = () => {
     navigate(`/chats/userId/${userId}`);
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+
+    axios.get(`http://localhost:6012/chats/findAllTheExistingChats?recipientId=${id}` , {
+      headers: {
+        Authorization: userToken
+      }
+    }).then((response) => {
+      console.log(
+        `data ( method: get ) from this /chats/findAllTheExistingChats endpoint --- ${response.data} \n`
+      );
+      setOldMessages(response.data);
+    }).catch((err) => {
+      console.log(`${err} --- error happened `)
+    })
+
+
+
+  },[]);
 
   useEffect(() => {
     //render the chat of the loggedinUser and the user with the id  -- (otherUserId)
@@ -164,7 +182,7 @@ export const ChatPage = () => {
       id="Chat-Page-Main"
       className="w-screen h-screen flex flex-row bg-gray-100"
     >
-      {console.log(allMessages , " --- allMessages \n") }
+      {console.log(allMessages, " --- allMessages \n")}
       <div
         id="Chat-List"
         className="w-1/3 flex flex-col bg-gray-200 m-4 rounded-md shadow-lg"
@@ -175,7 +193,7 @@ export const ChatPage = () => {
         <div className="flex flex-row w-full p-2">
           <input
             id="search-chats"
-            className="w-3/4 h-12 m-2 rounded-md p-2 focus:outline-none bg-gray-300"
+            className="w-3/4 h-12 m-2 rounded-full p-2 focus:outline-none bg-gray-300"
             onChange={(ev) => handleChangeUsername(ev)}
             placeholder="Search for users"
           />
@@ -238,7 +256,33 @@ export const ChatPage = () => {
             Send
           </button>
         </form>
-        <div className="main-chat w-full h-3/4 bg-gray-100 flex ">
+        <div className="main-chat w-full h-3/4 bg-gray-100 flex flex-col">
+          <div className="flex flex-col w-full h-full overflow-auto">
+            { Array.isArray(oldMessages) ?  oldMessages
+              .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
+              .map((element) => {
+                return (
+                  <div
+                    id="TextMessage-div"
+                    style={{
+                      justifyContent:
+                        element.sender !== id ? "flex-end" : "flex-start",
+                      alignItems:
+                        element.sender !== id ? "flex-end" : "flex-start",
+                      backgroundColor:
+                        element.sender !== id
+                          ? "rgb(220, 215, 247)"
+                          : "rgb(182, 194, 204)",
+                    }}  
+                    className="w-1/2 h-100 bg-blue-200 rounded-md p-2 m-2"
+                  >
+                    {" "}
+                    <ul>{element.content}</ul>{" "}
+                  </div>
+                );
+              }) : "no previous messages"}
+          </div>
+
           <div className="flex flex-col w-full h-full overflow-auto">
             {allMessages
               .sort((a, b) => new Date(a.time) - new Date(b.time))

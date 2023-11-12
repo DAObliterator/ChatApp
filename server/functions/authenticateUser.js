@@ -23,12 +23,15 @@ import dotenv from "dotenv";
 dotenv.config({ path: "../config.env" });
 import { User } from "../models/User.js";
 
-export const authenticateUser = (socket) => {
+export const authenticateUser =  (socket) => {
   const authToken = socket.handshake.auth.token;
   console.log(`this is the authToken --- ${authToken} \n`);
 
-  const done = jwt.verify(authToken , process.env.SECRET_KEY);
-  return done.userId;
+  const done = jwt.verify(authToken , process.env.SECRET_KEY );
+ 
+     return done.userId;
+  
+ 
   /*jwt.verify(authToken, process.env.SECRET_KEY, async (err, done) => {
     if (err) {
       console.log(

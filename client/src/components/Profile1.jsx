@@ -6,6 +6,7 @@ import { FinishProfile } from "./FinishProfile";
 import { ProfilePage } from "./ProfilePage";
 
 export const Profile1 = () => {
+  
   const [profileStatus, setProfileStatus] = useState({});
   const [finishUpBtnClicked, setFinishUpBtnClicked] = useState(false);
   const [imageUploaded , setImageUploaded ] = useState(false);

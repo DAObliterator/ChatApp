@@ -9,12 +9,8 @@ import {
 } from "react-router-dom";
 import { Navbar } from "./components/navbar";
 import { Home } from "./Home";
-import { Login } from "./components/Login";
-import { Chat } from "./components/Chat";
-import { Profile } from "./components/Profile";
 import { UserProvider } from "./apis/ContextApi";
 import { Authentication } from "./components/Authentication";
-import { useUser } from "./apis/ContextApi";
 import { extractToken } from "./functions/extractToken";
 import { Explore } from "./components/Explore";
 import { UserPage } from "./components/UserPage";
@@ -31,18 +27,9 @@ function App() {
 
   const userToken = extractToken("jwtToken");
 
-  const [themeChangeBtnClicked, setThemeChangeBtnClicked] = useState(false);
-
-  const handleThemeChange = () => {
-    setThemeChangeBtnClicked(!themeChangeBtnClicked);
-  };
-
-  const layoutColor = {
-    backgroundColor: `${themeChangeBtnClicked ? "white" : "gray"} `,
-  }
 
   return (
-    <div className="flex flex-col font-mono justify-center items-center" style={layoutColor}>
+    <div className="flex flex-col font-mono justify-center items-center" >
       <UserProvider>
         <Router>
           <Navbar />
@@ -75,13 +62,7 @@ function App() {
           </Routes>
         </Router>
       </UserProvider>
-      <button
-        id="Home-Main-btn"
-        onClick={handleThemeChange}
-        className="h-16 w-16 rounded-md bg-blue-600 hover:bg-blue-800 text-sm text-white"
-      >
-        Change Theme
-      </button>
+      
     </div>
   );
 }
